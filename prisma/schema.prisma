@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id   String   @id @default(uuid())
+  name String 
+  email String @unique
+  password String?
+  created_at DateTime @default(now()) 
+  userType USER_TYPE @default(user)
+  allocated_book allotment[]
+}
+
+model book {
+  id String @id @default(uuid())
+  name String 
+  author_name String
+  book_valume String?
+  created_at DateTime @default(now())
+  // number_of_books Int? 
+  book books_in_library[]
+}
+
+model books_in_library {
+  id String @id @default(uuid())
+  book book @relation(fields: [book_id],references: [id])
+  book_id String 
+  allocated_to allotment[]
+}
+
+model allotment{
+  id String @id @default(uuid())
+  book_allocated_to String 
+  book_allocated user @relation(fields: [book_allocated_to],references: [id])
+  book_id String 
+  allocated_book books_in_library @relation(fields: [book_id],references: [id])
+  allotmentDate DateTime @default(now())
+  returnDate DateTime? 
+  
+}
+
+enum USER_TYPE{
+  admin
+  user
+  staff
+}
