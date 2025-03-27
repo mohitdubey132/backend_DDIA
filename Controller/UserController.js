@@ -76,7 +76,7 @@ console.log(result);
                 subject: "User Action  🚀",
                 text: "Some user has login with your account please new message inform our support team if you are not using yur account ",
                 html: "<h1>Hello from Nodemailer</h1><p>This is bhgvhv a test email sent using <strong>Nodemailer</strong> in Node.js!</p>",
-            };
+            };   
               transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
                     console.log("Error:", error);
